@@ -1,0 +1,39 @@
+grpc:
+add id "eclipse" to plugins
+
+before protobuf:
+import org.gradle.plugins.ide.eclipse.model.Library
+eclipse.classpath.file {
+      whenMerged { 
+        entries += new Library(fileReference(file('build/classes/java/main')))
+      }
+}
+
+grpc-client:
+add to the top:
+plugins {
+    id "eclipse"
+}
+
+import org.gradle.plugins.ide.eclipse.model.Library
+eclipse.classpath.file {
+      whenMerged { 
+        entries += new Library(fileReference(file('../grpc/build/classes/java/main')))
+      }
+}
+
+
+grpc-server:
+add to the top:
+plugins {
+    // FIXME This is temporary until the server module refactoring is completed.
+    id 'com.github.johnrengelman.shadow' version '1.2.3'
+    id "eclipse"
+}
+
+import org.gradle.plugins.ide.eclipse.model.Library
+eclipse.classpath.file {
+      whenMerged { 
+        entries += new Library(fileReference(file('../grpc/build/classes/java/main')))
+      }
+}
